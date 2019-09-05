@@ -1,0 +1,21 @@
+{
+  "name": "standalone",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "js-framework-benchmark": {
+    "frameworkVersionFromPackage": "lwc"
+  },
+  "scripts": {
+    "build-dev": "webpack -w -d",
+    "build-prod": "webpack -p"
+  },
+  "devDependencies": {
+    "lwc-webpack-plugin": "^0.2.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8"
+  },
+  "dependencies": {
+    "@lwc/engine": "^1.0.0"
+  }
+}

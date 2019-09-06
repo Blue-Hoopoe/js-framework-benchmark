@@ -1,10 +1,11 @@
 {
-  "name": "standalone",
+  "name": "js-framework-benchmark-lwc",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "js-framework-benchmark": {
-    "frameworkVersionFromPackage": "lwc"
+    "frameworkVersionFromPackage": "@lwc/engine",
+    "useShadowRoot": true
   },
   "scripts": {
     "build-dev": "webpack -w -d",

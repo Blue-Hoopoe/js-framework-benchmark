@@ -8,21 +8,27 @@ export default class App extends LightningElement {
 	// Binding component's and store data.
 	@track rows = [];
 	current;
+	setup = false;
 
-	/**
-	 * Revive styles as soon, as possible.
-	 */
-	constructor() {
-		super();
+	renderedCallback() {
+		if (!this.setup) {
+			this.setup = true;
+			/**
+			 * Due to LWC restrictions and idea of shadow-root, there is no way to "pass" global styles to component via @import tag inside a modules's css file (https://github.com/salesforce/lwc/issues/1346#issuecomment-500033541).
+			 * One of the workaround I've found is to create a <link> tag with desired external styles.
+			 */
+			const link = document.createElement('link');
+			link.setAttribute('href', '/css/currentStyle.css');
+			link.setAttribute('rel', 'stylesheet');
+			this.template.appendChild(link);
 
-		/**
-		 * Due to LWC restrictions and idea of shadow-root, there is no way to "pass" global styles to component via @import tag inside a modules's css file (https://github.com/salesforce/lwc/issues/1346#issuecomment-500033541).
-		 * One of the workaround I've found is to create a <link> tag with desired external styles.
-		 */
-		const link = document.createElement('link');
-		link.setAttribute('href', '/css/currentStyle.css');
-		link.setAttribute('rel', 'stylesheet');
-		this.template.appendChild(link);
+			/**
+			 * Because LWC is replacing ids in the fly, we need to set ids manually.
+			 */
+			this.template.querySelectorAll('[data-rep-id]').forEach(x => {
+				x.id = x.dataset.repId;
+			})
+		}
 	}
 
 	// Internal helpers.

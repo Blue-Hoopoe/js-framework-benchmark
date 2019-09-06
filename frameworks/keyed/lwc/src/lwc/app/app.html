@@ -30,20 +30,36 @@
             </div>
         </div>
         <table class="table table-hover table-striped test-data">
-            <tbody>
+            <tbody onclick={resolve}>
                 <template for:each={rows} for:item="row">
-                    <tr key={row.id}>
-                        <td class="col-md-1">{row.id}</td>
-                        <td class="col-md-4">
-                            <a data-action="select">{row.label}</a>
-                        </td>
-                        <td class="col-md-1">
-                            <a data-id={row.id} onclick={removeRow}>
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            </a>
-                        </td>
-                        <td class="col-md-6"></td>
-                    </tr>
+                    <template if:false={row.selected}>
+                        <tr key={row.id}>
+                            <td class="col-md-1">{row.id}</td>
+                            <td class="col-md-4">
+                                <a data-action="select" data-id={row.id}>{row.label}</a>
+                            </td>
+                            <td class="col-md-1">
+                                <a>
+                                    <span data-action="remove" data-id={row.id} class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td class="col-md-6"></td>
+                        </tr>
+                    </template>
+                    <template if:true={row.selected}>
+                        <tr key={row.id} class="danger">
+                            <td class="col-md-1">{row.id}</td>
+                            <td class="col-md-4">
+                                <a data-action="select" data-id={row.id}>{row.label}</a>
+                            </td>
+                            <td class="col-md-1">
+                                <a>
+                                    <span data-action="remove" data-id={row.id} class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                </a>
+                            </td>
+                            <td class="col-md-6"></td>
+                        </tr>
+                    </template>
                 </template>
             </tbody>
         </table>

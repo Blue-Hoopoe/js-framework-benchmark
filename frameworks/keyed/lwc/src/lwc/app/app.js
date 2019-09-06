@@ -7,7 +7,7 @@ export default class App extends LightningElement {
 
 	// Binding component's and store data.
 	@track rows = [];
-	@track selected = undefined;
+	current;
 
 	/**
 	 * Revive styles as soon, as possible.
@@ -26,11 +26,6 @@ export default class App extends LightningElement {
 	}
 
 	// Internal helpers.
-	_clear() {
-		this.rows = [];
-		this.selected = undefined;
-	}
-
 	_add(ammount) {
 		for (let i = 0; i < ammount; i++) {
 			this.rows.push(createRow());
@@ -42,7 +37,7 @@ export default class App extends LightningElement {
 	 */
 	run() {
 		Performance.start('run');
-		this._clear();
+		this.rows = [];
 		this._add(1000);
 		Performance.stop();
 	}
@@ -52,7 +47,7 @@ export default class App extends LightningElement {
 	 */
 	runLots() {
 		Performance.start('runLots');
-		this._clear();
+		this.rows = [];
 		this._add(10000);
 		Performance.stop();
 	}
@@ -82,7 +77,7 @@ export default class App extends LightningElement {
 	 */
 	clear() {
 		Performance.start('clear');
-		this._clear();
+		this.rows = [];
 		Performance.stop();
 	}
 
@@ -100,20 +95,38 @@ export default class App extends LightningElement {
 	}
 
 	/**
+	 * Task 7,8 helper.
+	 */
+	resolve(event) {
+		const { action, id } = event.target.dataset;
+		if (action && id) {
+			this[action](Number(id), event.target);
+		}
+	}
+
+	/**
 	 * Task 7: Remove given row.
 	 */
-	removeRow(event) {
+	remove(id) {
 		Performance.start('remove');
-		let id = Number(event.currentTarget.getAttribute('data-id'));
 		const index = this.rows.findIndex(r => r.id === id);
-		this.rows = this.rows.slice(0, index).concat(this.rows.slice(index + 1))
+		this.rows = this.rows.slice(0, index).concat(this.rows.slice(index + 1));
 		Performance.stop();
 	}
 
 	/**
 	 * Task 8: Select given row.
 	 */
-	selectRow(event) {
-		// Todo...
+	select(id) {
+		Performance.start('select');
+		if (!this.current || this.current.id !== id) {
+			let row = this.rows[this.rows.findIndex(r => r.id === id)];
+			if (this.current) {
+				this.current.selected = false;
+			}
+			this.current = row;
+		}
+		this.current.selected = true;
+		Performance.stop();
 	}
 }

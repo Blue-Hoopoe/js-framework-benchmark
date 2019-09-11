@@ -6,8 +6,8 @@ let id = 1;
 const random = (max) => Math.round(Math.random() * 1000) % max;
 
 export default () => {
-	return {
-		id: id++,
-		label: adjectives[random(adjectives.length)] + ' ' + colours[random(colours.length)] + ' ' + nouns[random(nouns.length)]
-	}
+    return {
+        id: id++,
+        label: adjectives[random(adjectives.length)] + ' ' + colours[random(colours.length)] + ' ' + nouns[random(nouns.length)]
+    }
 }
